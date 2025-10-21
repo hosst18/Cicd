@@ -42,8 +42,14 @@ e2e_test:
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
       when: always
-      
-      
+
+only_canary:
+  stage: validate
+  script:
+    - echo "Canary "
+  rules:
+    - if: '$ENV_TARGET == "canary"'
+      when: always  
 
 release:
   stage: release
