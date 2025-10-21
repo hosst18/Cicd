@@ -38,7 +38,7 @@ unit_test:
 e2e_test:
   stage: test
   script:
-    - echo "Hello E2E"
+    - echo "Hello E2E-test"
   rules:
     - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
       when: always
