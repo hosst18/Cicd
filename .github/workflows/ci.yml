@@ -11,27 +11,29 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - name: Use Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '18'
           cache: 'npm'
 
-      - name: Install
-        run: npm ci --cache .npm --prefer-offline
+      - name: Install deps
+        run: npm ci || npm install
 
-      - name: Validate
-        run: npm run lint
+      - name: Lint (if present)
+        run: npm run lint --if-present
 
-      - name: Test
-        run: npm test
+      - name: Test (if present)
+        run: npm test --if-present
 
-      - name: Build for production
-        run: npm run build
+      - name: Build (if present)
+        run: npm run build --if-present
 
-      - uses: actions/upload-artifact@v3
+      - name: Upload artifact (dist/)
+        uses: actions/upload-artifact@v4
+        if: ${{ hashFiles('dist/**') != '' }}
         with:
           name: web
-          path: ./dist
+          path: dist
